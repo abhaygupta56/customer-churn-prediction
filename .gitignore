@@ -27,3 +27,5 @@ env/
 .DS_Store
 Thumbs.db
 
+# Generated model files
+models/*.pkl
