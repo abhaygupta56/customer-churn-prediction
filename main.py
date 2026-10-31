@@ -1,31 +1,19 @@
-from src.preprocessing import (load_data,clean_data,split_features_target,get_feature_types,build_preprocessor)
-
-from src.split_data import split_data
-from src.train import build_model,train_model,save_model
-from src.evaluate import evaluate_model
+from src.train import load_model
+from src.predict import predict_churn
 
 def main():
-    df = load_data("data/Telco-Customer-Churn.csv")
-    df = clean_data(df)
+    model = load_model("models/churn_model.pkl")
     
-    X,y = split_features_target(df)
+    print("Churn prediction model loaded sucessfully")
     
-    numerical_features, categorical_features = get_feature_types(X)
-    preprocessor = build_preprocessor(numerical_features,categorical_features)
+    customer_data = { "gender": "Female", "SeniorCitizen": 0, "Partner": "Yes", "Dependents": "No", "tenure": 12, "PhoneService": "Yes", "MultipleLines": "No", "InternetService": "Fiber optic", "OnlineSecurity": "No", "OnlineBackup": "Yes", "DeviceProtection": "No", "TechSupport": "No", "StreamingTV": "Yes", "StreamingMovies": "No", "Contract": "Month-to-month", "PaperlessBilling": "Yes", "PaymentMethod": "Electronic check", "MonthlyCharges": 75.5, "TotalCharges": 906.0 }
     
-    X_train,X_test,y_train,y_test = split_data(X,y)
     
-    model = build_model(preprocessor)
-    model = train_model(model,X_train,y_train)
+    result = predict_churn(model, customer_data, threshold=0.5)
     
-    save_model(model)
-    
-    results = evaluate_model(model,X_test,y_test)
-    
-    print("Model performance : ")
-    for metric , score in results.items():
-        print(f"{metric}: {score:.4f}")
-        
-        
+    print(f"Prediction: {result['Prediction']}")
+    print(f"Churn Probability: {result['Churn Probability']}%")
+    print(f"Threshold: {result['Threshold']}")
+
 if __name__ == "__main__":
     main()
