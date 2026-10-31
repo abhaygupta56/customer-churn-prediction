@@ -65,6 +65,36 @@ Models were evaluated using:
 
 The final model was selected using validation performance and evaluated on the separate test dataset.
 
+## 📊 Model Performance
+
+The final selected model is **Tuned Logistic Regression**.
+
+Evaluated on the held-out test dataset using the optimized classification threshold of **0.55**.
+
+### Evaluation Metrics
+
+| Metric    |  Score |
+| --------- | -----: |
+| Accuracy  | 74.41% |
+| Precision | 51.27% |
+| Recall    | 75.67% |
+| F1-Score  | 61.12% |
+| ROC-AUC   | 83.44% |
+
+### Confusion Matrix
+
+| Actual / Predicted | No Churn | Churn |
+| ------------------ | -------: | ----: |
+| No Churn           |      764 |   269 |
+| Churn              |       91 |   283 |
+
+### Key Observations
+
+* The model correctly identifies 283 customers who churned.
+* It detects approximately 75.67% of actual churn cases.
+* ROC-AUC of 83.44% indicates good ability to distinguish between churn and non-churn customers.
+* The model prioritizes identifying customers who may leave, which is important for customer retention.
+
 ## Project Structure
 
 ```text
