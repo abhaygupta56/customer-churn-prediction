@@ -4,7 +4,7 @@ from src.predict import predict_churn
 from src.train import load_model
 
 MODEL_PATH = "models/churn_model.pkl"
-THRESHOLD = 0.5  # Replace with your notebook's best_threshold
+THRESHOLD = 0.55
 
 YES_NO = ["Yes", "No"]
 YES_NO_NOINTERNET = ["Yes", "No", "No internet service"]

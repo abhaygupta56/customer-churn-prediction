@@ -123,6 +123,17 @@ python main.py
 
 The application loads the saved machine learning model and predicts churn for the sample customer.
 
+## 🚀 Live Demo
+
+Try the deployed Customer Churn Prediction application:
+
+[🔗 Launch Customer Churn Prediction App](https://customer-churn-prediction-gy2aujks7kbpzgpuwjvjgo.streamlit.app/)
+
+### Features
+- Predict customer churn using machine learning.
+- Display churn probability.
+- Interactive Streamlit interface.
+- Optimized prediction threshold: 0.55.
 ## Sample Prediction
 
 ```text
