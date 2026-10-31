@@ -1,190 +1,166 @@
-# Customer Churn Prediction
+# 📉 Customer Churn Prediction
 
-An end-to-end Machine Learning project that predicts whether a telecom customer is likely to leave the company (churn) using customer demographics, account information, and subscribed services.
+An end-to-end machine learning project that predicts whether a telecom customer is likely to leave, so a business can act *before* the customer is gone.
 
-## Project Overview
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Streamlit-FF4B4B?logo=streamlit&logoColor=white)](https://customer-churn-prediction-gy2aujks7kbpzgpuwjvjgo.streamlit.app/)
+![Python](https://img.shields.io/badge/Python-3.x-3776AB?logo=python&logoColor=white)
+![scikit-learn](https://img.shields.io/badge/scikit--learn-ML-F7931E?logo=scikitlearn&logoColor=white)
 
-Customer churn is a major challenge for telecom companies. Predicting customers who are likely to leave helps businesses take preventive actions and improve customer retention.
+**👉 [Try the live app](https://customer-churn-prediction-gy2aujks7kbpzgpuwjvjgo.streamlit.app/)**
 
-This project uses machine learning classification algorithms to predict customer churn.
+---
 
-## Dataset
+## 📌 Table of Contents
 
-* **Dataset:** IBM Telco Customer Churn
-* **Source:** IBM Sample Data
-* **Target Variable:** `Churn`
-* **Classes:** Yes / No
+- [Problem Statement](#-problem-statement)
+- [Dataset](#-dataset)
+- [Approach](#-approach)
+- [Results](#-results)
+- [Key Takeaways](#-key-takeaways)
+- [Project Structure](#-project-structure)
+- [Getting Started](#-getting-started)
+- [Author](#-author)
 
-## Technologies Used
+---
 
-* Python
-* Pandas
-* NumPy
-* Matplotlib
-* Seaborn
-* Scikit-learn
-* Jupyter Notebook
-* Joblib
-* Git & GitHub
+## 🎯 Problem Statement
 
-## Project Workflow
+Acquiring a new customer usually costs more than keeping an existing one. If a telecom company can identify customers who are likely to churn, it can offer targeted retention deals, better plans or support outreach before they leave.
 
-1. Data Loading
-2. Data Cleaning
-3. Exploratory Data Analysis (EDA)
-4. Feature Engineering and Preprocessing
-5. Train, Validation and Test Split
-6. Model Training
-7. Hyperparameter Tuning
-8. Model Comparison
-9. Threshold Optimization
-10. Final Model Evaluation
-11. Model Saving
-12. Customer Churn Prediction
+This project builds a classification model that takes a customer's demographics, account details and subscribed services, and outputs the **probability that the customer will churn**.
 
-## Machine Learning Algorithms
+## 📊 Dataset
 
-The following classification algorithms were implemented:
+| Item | Details |
+|------|---------|
+| Name | IBM Telco Customer Churn |
+| Source | IBM sample data |
+| Target | `Churn` (Yes / No) |
+| Features | Demographics, account information (tenure, contract, billing), subscribed services |
 
-* Logistic Regression
-* Decision Tree Classifier
-* Random Forest Classifier
+The file lives at `data/Telco-Customer-Churn.csv`.
 
-Hyperparameter tuning was performed using `GridSearchCV` with 5-fold cross-validation and F1-score optimization.
+## 🛠️ Approach
 
-## Evaluation Metrics
+1. **Data loading and cleaning**: fixing data types and handling missing or invalid values.
+2. **Exploratory data analysis**: understanding churn patterns across contract type, tenure, charges and services.
+3. **Feature engineering and preprocessing**: encoding categorical variables and scaling numeric features.
+4. **Train / validation / test split**: a separate test set is kept untouched for the final evaluation.
+5. **Model training**: three classifiers were compared:
+   - Logistic Regression
+   - Decision Tree
+   - Random Forest
+6. **Hyperparameter tuning**: `GridSearchCV` with 5-fold cross-validation, optimizing **F1-score**.
+7. **Threshold optimization**: the decision threshold was tuned (to **0.55**) instead of using the default 0.5.
+8. **Final evaluation** on the held-out test set, then saving the model with `joblib`.
 
-Models were evaluated using:
+## 🏆 Results
 
-* Accuracy
-* Precision
-* Recall
-* F1-Score
-* ROC-AUC
-* Confusion Matrix
+**Final model: Tuned Logistic Regression** (threshold = 0.55), evaluated on the held-out test set.
 
-The final model was selected using validation performance and evaluated on the separate test dataset.
-
-## 📊 Model Performance
-
-The final selected model is **Tuned Logistic Regression**.
-
-Evaluated on the held-out test dataset using the optimized classification threshold of **0.55**.
-
-### Evaluation Metrics
-
-| Metric    |  Score |
-| --------- | -----: |
-| Accuracy  | 74.41% |
+| Metric | Score |
+|--------|------:|
+| Accuracy | 74.41% |
 | Precision | 51.27% |
-| Recall    | 75.67% |
-| F1-Score  | 61.12% |
-| ROC-AUC   | 83.44% |
+| **Recall** | **75.67%** |
+| F1-Score | 61.12% |
+| ROC-AUC | 83.44% |
 
 ### Confusion Matrix
 
-<p align="center">
-  <img src="images/confusion_matrix.png" alt="Customer Churn Confusion Matrix" width="700">
-</p>
+![Confusion Matrix](images/confusion_matrix.png)
 
+## 💡 Key Takeaways
 
-### Key Observations
+- **Recall was prioritized.** Missing a customer who is about to leave (a false negative) is usually more costly than offering a retention deal to someone who would have stayed. The model catches about **76% of actual churners** (283 customers in the test set).
+- **ROC-AUC of 83.4%** shows the model ranks churners above non-churners well, regardless of the chosen threshold.
+- **Accuracy alone is misleading** here because the classes are imbalanced (most customers do not churn), so precision, recall, F1 and ROC-AUC were used to judge the model.
+- **Precision is about 51%**: roughly half of the customers flagged as "likely to churn" would not actually leave. This is the trade-off of favoring recall, so the right threshold depends on the cost of a retention offer versus the value of a retained customer.
+- A simple, interpretable model (Logistic Regression) outperformed the tree-based models on the validation set while staying easy to explain.
 
-* The model correctly identifies 283 customers who churned.
-* It detects approximately 75.67% of actual churn cases.
-* ROC-AUC of 83.44% indicates good ability to distinguish between churn and non-churn customers.
-* The model prioritizes identifying customers who may leave, which is important for customer retention.
+## 📁 Project Structure
 
-## Project Structure
-
-```text
-churn-prediction-model/
+```
+customer-churn-prediction/
 │
 ├── data/
 │   └── Telco-Customer-Churn.csv
+│
+├── images/
+│   └── confusion_matrix.png
 │
 ├── models/
 │   └── churn_model.pkl
 │
 ├── notebooks/
-│   └── churn_analysis.ipynb
+│   └── churn_analysis.ipynb      # EDA and experimentation
 │
 ├── src/
 │   ├── __init__.py
-│   ├── preprocessing.py
-│   ├── split_data.py
-│   ├── train.py
-│   ├── evaluate.py
-│   └── predict.py
+│   ├── preprocessing.py          # cleaning and feature preparation
+│   ├── split_data.py             # train / validation / test split
+│   ├── train.py                  # model training and tuning
+│   ├── evaluate.py               # metrics and threshold evaluation
+│   └── predict.py                # load model and predict
 │
-├── main.py
+├── app.py                        # Streamlit web app
+├── main.py                       # command-line prediction example
 ├── requirements.txt
-├── README.md
-└── .gitignore
+├── .gitignore
+└── README.md
 ```
 
-## Installation
+## 🚀 Getting Started
 
-Clone the repository:
+**1. Clone the repository**
 
 ```bash
-git clone YOUR_GITHUB_REPOSITORY_URL
+git clone https://github.com/abhaygupta56/customer-churn-prediction.git
+cd customer-churn-prediction
 ```
 
-Navigate to the project directory:
+**2. (Recommended) Create a virtual environment**
 
 ```bash
-cd churn-prediction-model
+python -m venv venv
+source venv/bin/activate        # On Windows: venv\Scripts\activate
 ```
 
-Install dependencies:
+**3. Install dependencies**
 
 ```bash
 pip install -r requirements.txt
 ```
 
-## Run the Project
-
-Execute:
+**4. Run a sample prediction from the command line**
 
 ```bash
 python main.py
 ```
 
-The application loads the saved machine learning model and predicts churn for the sample customer.
+Example output:
 
-## 🚀 Live Demo
-
-Try the deployed Customer Churn Prediction application:
-
-[🔗 Launch Customer Churn Prediction App](https://customer-churn-prediction-gy2aujks7kbpzgpuwjvjgo.streamlit.app/)
-
-### Features
-- Predict customer churn using machine learning.
-- Display churn probability.
-- Interactive Streamlit interface.
-- Optimized prediction threshold: 0.55.
-## Sample Prediction
-
-```text
+```
 Churn Prediction Model Loaded Successfully
 
 Prediction: Yes
 Churn Probability: 88.42%
-Threshold: 0.5
+Threshold: 0.55
 ```
 
-*Sample output from a local model run.*
+**5. Launch the Streamlit app locally**
 
-## Future Improvements
+```bash
+streamlit run app.py
+```
 
-* Develop an interactive Streamlit dashboard.
-* Add customer-level churn explanations.
-* Improve model performance through additional feature engineering.
-* Deploy the model as a web application.
-
-## Author
+## 👤 Author
 
 **Abhay Gupta**
-
 Machine Learning | Artificial Intelligence | Python
+
+- GitHub: [@abhaygupta56](https://github.com/abhaygupta56)
+
+---
+
+⭐ If you found this project useful, consider giving it a star!
