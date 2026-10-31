@@ -83,10 +83,10 @@ Evaluated on the held-out test dataset using the optimized classification thresh
 
 ### Confusion Matrix
 
-| Actual / Predicted | No Churn | Churn |
-| ------------------ | -------: | ----: |
-| No Churn           |      764 |   269 |
-| Churn              |       91 |   283 |
+<p align="center">
+  <img src="images/confusion_matrix.png" alt="Customer Churn Confusion Matrix" width="700">
+</p>
+
 
 ### Key Observations
 
